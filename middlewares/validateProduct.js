@@ -1,4 +1,4 @@
-const { validate } = require("../models/products")
+const { validate } = require("../models/product")
 
 function validateProduct(req, res, next) {
     let { error } = validate(req.body)

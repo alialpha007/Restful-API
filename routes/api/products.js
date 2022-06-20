@@ -1,10 +1,14 @@
 const express = require("express")
 let router = express.Router()
-var { Product } = require("../../models/products")
+var { Product } = require("../../models/product")
 const validateProduct = require("../../middlewares/validateProduct")
+const auth = require("../../middlewares/auth")
+const admin = require("../../middlewares/admin")
+
 
 //GET ALL RECORDS
 router.get("/", async (req, res) => {
+    console.log(req.user)
 
     let page = Number(req.query.page ? req.query.page : 1)
     let perPage = Number(req.query.perPage ? req.query.perPage : 10)
@@ -35,7 +39,7 @@ router.get("/:id", async (req, res) => {
 })
 
 // UPDATE SINGLE RECORD (PUT)
-router.put("/:id", validateProduct, async (req, res) => {
+router.put("/:id", auth, admin, validateProduct, async (req, res) => {
 
     let product = await Product.findById(req.params.id)
     product.name = req.body.name
@@ -46,7 +50,7 @@ router.put("/:id", validateProduct, async (req, res) => {
 })
 
 // DELETE SINGLE RECORD
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, admin, async (req, res) => {
 
     let product = await Product.findByIdAndDelete(req.params.id)
     return res.send(product)
@@ -54,7 +58,7 @@ router.delete("/:id", async (req, res) => {
 })
 
 // CREATE A NEW RECORD
-router.post("/", validateProduct, async (req, res) => {
+router.post("/", auth, admin, validateProduct, async (req, res) => {
 
 
 

@@ -13,7 +13,7 @@ var config = require("config");
 
 // ADDING ROUTES
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/api/users');
+var usersRouter = require('./routes/api/users');
 var productsRouter = require('./routes/api/products');
 
 
@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // USING ROUTES
 app.use('/', indexRouter);
-// app.use('/api/users', usersRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
 
 // catch 404 and forward to error handler
